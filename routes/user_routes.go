@@ -11,6 +11,8 @@ func RegisterUserRoutes(router *gin.Engine) {
 	{
 		userRoutes.GET("/", controllers.GetUsers)
 		userRoutes.GET("/:id", controllers.GetUserByID)
-		// More routes like POST, PUT, DELETE
+		userRoutes.POST("/", controllers.CreateUser)
+		userRoutes.PUT("/:id", controllers.UpdateUser)
+		userRoutes.DELETE("/:id", controllers.DeleteUser)
 	}
 }

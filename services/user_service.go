@@ -13,4 +13,14 @@ func GetUserByID(id uint) (*models.User, error) {
 	return repositories.FindUserByID(id)
 }
 
-// Other business logic (create user, update user, etc.)
+func CreateUser(userInput *models.UserInput) (*models.User, error) {
+	return repositories.CreateUser(userInput)
+}
+
+func UpdateUser(id uint, userInput models.UserInput) (*models.User, error) {
+	return repositories.UpdateUser(id, userInput)
+}
+
+func DeleteUser(id uint) error {
+	return repositories.DeleteUser(id)
+}
