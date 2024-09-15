@@ -15,6 +15,7 @@ func main() {
 
     // Register routes
     routes.RegisterUserRoutes(router)
+    routes.RegisterLessonRoutes(router)
 
     // Start the server
     router.Run(":8080")
