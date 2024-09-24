@@ -37,7 +37,7 @@ func GetLessonByID(c *gin.Context) {
 
 // CreateLesson handles the POST request to create a new lesson
 func CreateLesson(c *gin.Context) {
-	var lesson models.LessonInput
+	var lesson models.Lesson
 
 	if err := c.ShouldBindJSON(&lesson); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -61,7 +61,7 @@ func UpdateLesson(c *gin.Context) {
 		return
 	}
 
-	var updatedLesson models.LessonInput
+	var updatedLesson models.Lesson
 
 	if err := c.ShouldBindJSON(&updatedLesson); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

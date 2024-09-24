@@ -21,18 +21,20 @@ func FindLessonByID(id uint) (*models.Lesson, error) {
 	return &lessons, nil
 }
 
-func CreateLesson(lessonInput *models.LessonInput) (*models.Lesson, error) {
+func CreateLesson(lessonInput *models.Lesson) (*models.Lesson, error) {
 	lesson := models.Lesson{
 		UserId: lessonInput.UserId,
 		Name:   lessonInput.Name,
 	}
+
 	if err := config.DB.Create(&lesson).Error; err != nil {
 		return nil, err
 	}
+
 	return &lesson, nil
 }
 
-func UpdateLesson(id uint, lessonInput models.LessonInput) (*models.Lesson, error) {
+func UpdateLesson(id uint, lessonInput models.Lesson) (*models.Lesson, error) {
 	lesson := models.Lesson{
 		UserId: lessonInput.UserId,
 		Name:   lessonInput.Name,
