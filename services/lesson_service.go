@@ -4,7 +4,6 @@ import (
 	"fastfishback/config"
 	"fastfishback/models"
 	"fastfishback/repositories"
-	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -46,8 +45,6 @@ func GetLessonByID(id uint) (*models.Lesson, error) {
 func CreateLesson(lesson *models.Lesson) (*models.Lesson, error) {
 	var newLesson *models.Lesson
 
-	fmt.Println(lesson)
-
 	err := config.DB.Transaction(func(tx *gorm.DB) error {
 		newLesson, err := repositories.CreateLesson(lesson)
 		if err != nil {
@@ -72,10 +69,60 @@ func CreateLesson(lesson *models.Lesson) (*models.Lesson, error) {
 	return newLesson, nil
 }
 
-func UpdateLesson(id uint, LessonInput models.Lesson) (*models.Lesson, error) {
-	return repositories.UpdateLesson(id, LessonInput)
+func UpdateLesson(id uint, lessonInput models.Lesson) (*models.Lesson, error) {
+	var existingLesson *models.Lesson
+
+	err := config.DB.Transaction(func(tx *gorm.DB) error {
+		if id != 0 {
+			if _, err := repositories.FindLessonByID(id); err != nil {
+				return err
+			}
+
+			if _, err := repositories.UpdateLesson(id, lessonInput); err != nil {
+				return err
+			}
+		}
+
+		if len(lessonInput.Words) != 0 {
+			if err := repositories.DeleteWordsByLessonId(id); err != nil {
+				return err
+			}
+
+			for i := range lessonInput.Words {
+				lessonInput.Words[i].LessonId = int(id)
+			}
+
+			if err := repositories.CreateWords(lessonInput.Words); err != nil {
+				return err
+			}
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return existingLesson, nil
 }
 
 func DeleteLesson(id uint) error {
-	return repositories.DeleteLesson(id)
+	err := config.DB.Transaction(func(tx *gorm.DB) error {
+		if err := repositories.DeleteWordsByLessonId(id); err != nil {
+			return err
+		}
+
+		if err := repositories.DeleteLesson(id); err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

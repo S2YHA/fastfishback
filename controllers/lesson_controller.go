@@ -18,7 +18,6 @@ func GetLessons(c *gin.Context) {
 	c.JSON(http.StatusOK, lessons)
 }
 
-// GetLessonByID handles the GET request to retrieve a lesson by ID
 func GetLessonByID(c *gin.Context) {
 	lessonID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -35,7 +34,6 @@ func GetLessonByID(c *gin.Context) {
 	c.JSON(http.StatusOK, lesson)
 }
 
-// CreateLesson handles the POST request to create a new lesson
 func CreateLesson(c *gin.Context) {
 	var lesson models.Lesson
 
@@ -53,7 +51,6 @@ func CreateLesson(c *gin.Context) {
 	c.JSON(http.StatusCreated, createdLesson)
 }
 
-// UpdateLesson handles the PUT request to update an existing lesson
 func UpdateLesson(c *gin.Context) {
 	lessonID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -77,7 +74,6 @@ func UpdateLesson(c *gin.Context) {
 	c.JSON(http.StatusOK, lesson)
 }
 
-// DeleteLesson handles the DELETE request to delete a lesson
 func DeleteLesson(c *gin.Context) {
 	lessonID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

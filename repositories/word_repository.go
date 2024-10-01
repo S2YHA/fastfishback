@@ -17,13 +17,6 @@ func FindWordsByLessonID(id uint) ([]models.Word, error) {
 	return words, nil
 }
 
-// func UpdateLesson(id uint, lessonInput models.LessonInput) (*models.Lesson, error) {
-// 	lesson := models.Lesson{
-// 		UserId: lessonInput.UserId,
-// 		Name:   lessonInput.Name,
-// 	}
-// 	if err := config.DB.Model(&models.Lesson{}).Where("id = ?", id).Updates(&lesson).Error; err != nil {
-// 		return nil, err
-// 	}
-// 	return &lesson, nil
-// }
+func DeleteWordsByLessonId(lessonId uint) error {
+	return config.DB.Where("lesson_id = ?", lessonId).Delete(&models.Word{}).Error
+}

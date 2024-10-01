@@ -87,5 +87,3 @@ func DeleteUser(c *gin.Context) {
 
 	c.JSON(http.StatusNoContent, nil)
 }
-
-// More handlers (create, update, delete)
